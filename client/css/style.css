@@ -1,0 +1,114 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0; /* Ensure there's no default margin */
+    padding: 0; /* Ensure there's no default padding */
+}
+
+.navbar {
+    margin-bottom: 0; /* Remove bottom margin from navbar */
+}
+
+.container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px; /* Adjusted for larger content */
+    width: 100%; /* Ensure full width */
+    margin: 0 auto; /* Center container horizontally */
+}
+
+.sidebar {
+    position: fixed;
+    top: 56px; /* Adjust to the height of the navbar */
+    left: 0;
+    height: calc(100% - 56px); /* Ensure it fills the remaining height */
+    width: 60px;
+    background-color: #343a40;
+    transition: width 0.3s;
+    overflow-x: hidden;
+    z-index: 1000;
+}
+
+.sidebar.expanded {
+    width: 200px;
+}
+
+.sidebar .btn {
+    width: 100%;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    background-color: #343a40;
+    border: none;
+    cursor: pointer;
+}
+
+.sidebar .btn:hover {
+    background-color: #495057;
+}
+
+.canvas-menu {
+    display: none;
+    background-color: #343a40;
+    color: white;
+    padding: 15px;
+    border-radius: 8px;
+}
+
+.sidebar.expanded .canvas-menu {
+    display: block;
+}
+
+.canvas-menu a {
+    color: white;
+    display: block;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.footer {
+    background-color: #343a40;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.quiz {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+.questions {
+    margin-top: 10px;
+}
+
+.choice.correct {
+    font-weight: bold;
+    color: green;
+}
+
+.expanded {
+    width: 250px;
+}
+
+.timer {
+    font-size: 24px;
+    font-weight: bold;
+    color: red;
+}
+
+.quiz-container {
+    margin-top: 20px;
+}
+
+.question {
+    margin-bottom: 15px;
+}
+
+.question input[type="radio"] {
+    margin-right: 10px;
+}
