@@ -20,6 +20,7 @@ function validateForm() {
 
     return true;
 }
+
 function handleSubmit(event) {
     event.preventDefault(); 
 
@@ -33,8 +34,7 @@ function handleSubmit(event) {
 
     Login(username, password);
 }
-
-function Login(username, password){
+function Login(username, password) {
     const configurationObject = {
         method: "POST",
         headers: {
@@ -46,20 +46,21 @@ function Login(username, password){
             password: password
         })
     };
+    
     fetch('http://127.0.0.1:5000/login', configurationObject)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok.');
-            }
-            return response.json();
-        })
+        .then(response => response.json())
         .then(json => {
-            console.log(json);
-            alert('Sign up successful!');
-            document.getElementById('signUpForm').reset(); // Reset the form fields
+            if (json.errors) {
+                // Handle login failure
+                alert('Login failed. Please check your credentials.');
+            } else {
+                // Store the JWT token in localStorage
+                localStorage.setItem('access_token', json.access_token);
+                window.location.href = 'home.html';
+            }
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Sign up failed. Please try again.');
+            alert('Login failed. Please try again.');
         });
 }
