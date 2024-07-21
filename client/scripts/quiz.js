@@ -11,6 +11,9 @@ function fetchQuestions(quizId) {
         .then(response => response.json())
         .then(data => {
             displayQuestions(data);
+        })
+        .catch(error => {
+            console.error('Error fetching questions:', error);
         });
 }
 
@@ -40,9 +43,9 @@ function displayQuestions(questions) {
             choiceInput.value = choice.id;
             choiceDiv.appendChild(choiceInput);
 
-            const choiceText = document.createElement('label');
-            choiceText.textContent = choice.text;
-            choiceDiv.appendChild(choiceText);
+            const choiceLabel = document.createElement('label');
+            choiceLabel.textContent = choice.text;
+            choiceDiv.appendChild(choiceLabel);
 
             if (choice.is_correct) {
                 choiceDiv.classList.add('correct');
@@ -66,28 +69,57 @@ function startTimer() {
             clearInterval(timerInterval);
             timerElement.textContent = 'Time is up!';
             document.getElementById('submitQuiz').disabled = true;
+            submitQuiz(); // Automatically submit when time is up
         }
     }, 1000);
 }
 
 document.getElementById('submitQuiz').addEventListener('click', () => {
+    submitQuiz();
+});
+function submitQuiz() {
     const questions = document.querySelectorAll('.question');
     let score = 0;
+    const quizId = new URLSearchParams(window.location.search).get('quizId');
+
+    if (!quizId) {
+        console.error('Quiz ID not found');
+        return;
+    }
 
     questions.forEach(question => {
         const selectedChoice = question.querySelector('input[type="radio"]:checked');
         if (selectedChoice) {
             const choiceId = selectedChoice.value;
-            fetch(`http://127.0.0.1:5000/choices/${choiceId}`)
-                .then(response => response.json())
-                .then(choice => {
-                    if (choice.is_correct) {
-                        score++;
-                    }
-                    document.getElementById('scoreCounter').textContent = score;
-                });
+            const choiceElement = Array.from(question.querySelectorAll('.choice')).find(choice => choice.querySelector('input').value === choiceId);
+            if (choiceElement && choiceElement.classList.contains('correct')) {
+                score++;
+            }
         }
     });
+
+    document.getElementById('scoreCounter').textContent = score;
+
+    // Send the score to the server
+    fetch('http://127.0.0.1:5000/scores', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Replace with actual token retrieval
+    },
+    body: JSON.stringify({ quiz_id: quizId, score: score })
+})
+.then(response => {
+    if (!response.ok) {
+        throw new Error('Network response was not ok');
+    }
+    return response.json();
+})
+.then(data => {
+    console.log('Score submitted successfully:', data);
+})
+.catch(error => {
+    console.error('Error submitting score:', error);
 });
 
-
+}
