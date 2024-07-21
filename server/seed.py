@@ -1,7 +1,8 @@
-from app import app
+from app import create_app
 from models import db, User, Quiz, Question, Choice, Score
 
 def seed_data():
+    app = create_app()
     with app.app_context():
         print("Deleting data...")
         User.query.delete()
@@ -92,10 +93,10 @@ def seed_data():
 
         print("Creating scores...")
         scores = [
-            Score(user_id=user1.id, quiz_id=quiz1.id),
-            Score(user_id=user1.id, quiz_id=quiz2.id),
-            Score(user_id=user2.id, quiz_id=quiz3.id),
-            Score(user_id=user3.id, quiz_id=quiz1.id),
+            Score(user_id=user1.id, quiz_id=quiz1.id, score=1),
+            Score(user_id=user1.id, quiz_id=quiz2.id,score=1),
+            Score(user_id=user2.id, quiz_id=quiz3.id, score=1),
+            Score(user_id=user3.id, quiz_id=quiz1.id, score=1),
         ]
 
         db.session.add_all(scores)
