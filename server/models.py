@@ -1,18 +1,23 @@
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy_serializer import SerializerMixin
 from sqlalchemy import MetaData, ForeignKey
 from sqlalchemy.orm import validates, relationship
 from sqlalchemy.ext.hybrid import hybrid_property
+from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 import re
-from config import db, bcrypt
+from datetime import datetime
 
+# Define metadata with naming conventions
 metadata = MetaData(
     naming_convention={
         "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
     }
 )
 
-class User(db.Model, SerializerMixin):
+# Initialize db and bcrypt
+db = SQLAlchemy(metadata=metadata)
+bcrypt = Bcrypt()
+
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -21,8 +26,12 @@ class User(db.Model, SerializerMixin):
     _password_hash = db.Column(db.String, nullable=False)
 
     scores = db.relationship('Score', back_populates='user')
-
-    serialize_rules = ('-scores.user',)
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email
+        }
 
     @hybrid_property
     def password_hash(self):
@@ -30,11 +39,10 @@ class User(db.Model, SerializerMixin):
 
     @password_hash.setter
     def password_hash(self, password):
-        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
-        self._password_hash = password_hash.decode('utf-8')
+        self._password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
 
     def authenticate(self, password):
-        return bcrypt.check_password_hash(self._password_hash, password.encode('utf-8'))
+        return bcrypt.check_password_hash(self._password_hash, password)
 
     @validates('name')
     def validate_name(self, key, name):
@@ -52,12 +60,13 @@ class User(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<User {self.name}, {self.email}>'
 
-class Quiz(db.Model, SerializerMixin):
+class Quiz(db.Model):
     __tablename__ = 'quizzes'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String, nullable=False)
     questions = db.relationship('Question', backref='quiz', lazy=True)
     scores = db.relationship('Score', back_populates='quiz')
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -71,6 +80,7 @@ class Question(db.Model):
     text = db.Column(db.String(200), nullable=False)
     quiz_id = db.Column(db.Integer, db.ForeignKey('quizzes.id'), nullable=False)
     choices = db.relationship('Choice', backref='question', lazy=True)
+
     def to_dict(self):
         return {
             'id': self.id,
@@ -84,20 +94,32 @@ class Choice(db.Model):
     text = db.Column(db.String(100), nullable=False)
     is_correct = db.Column(db.Boolean, default=False)
     question_id = db.Column(db.Integer, db.ForeignKey('questions.id'), nullable=False)
+
     def to_dict(self):
         return {
             'id': self.id,
             'text': self.text,
             'is_correct': self.is_correct
         }
-        
-class Score(db.Model, SerializerMixin):
+
+class Score(db.Model):
     __tablename__ = 'scores'
+
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, ForeignKey('users.id'))
     quiz_id = db.Column(db.Integer, ForeignKey('quizzes.id'))
+    score = db.Column(db.Integer, nullable=False)  # Add this line to store the score
 
     user = db.relationship('User', back_populates='scores')
     quiz = db.relationship('Quiz', back_populates='scores')
 
     serialize_rules = ('-user.scores', '-quiz.scores',)
+
+class BlacklistedToken(db.Model):
+    __tablename__ = 'blacklisted_tokens'
+    id = db.Column(db.Integer, primary_key=True)
+    token = db.Column(db.String(512), unique=True, nullable=False)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    def __repr__(self):
+        return f'<BlacklistedToken {self.token}>'
