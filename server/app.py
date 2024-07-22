@@ -172,6 +172,36 @@ def create_app():
         scores_list = [{'quiz_name': quiz_name, 'score': score} for quiz_name, score in scores]
         print(scores_list)
         return jsonify(scores_list), 200
+    
+
+    @app.route('/users', methods=['POST'])
+    def signup():
+        data = request.get_json()
+
+        # Extract and validate data
+        username = data.get('username')
+        email = data.get('email')
+        password = data.get('password')
+
+        if not username or not email or not password:
+            return jsonify({'message': 'All fields are required.'}), 400
+
+        if len(password) < 6:
+            return jsonify({'message': 'Password must be at least 6 characters long.'}), 400
+
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            return jsonify({'message': 'User with this email already exists.'}), 400
+
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+        new_user = User(name=username, email=email, password_hash=hashed_password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        return jsonify({'message': 'User created successfully.'}), 201
+
 
 
     return app
