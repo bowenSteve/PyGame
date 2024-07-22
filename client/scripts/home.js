@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchData() {
-    fetch('http://127.0.0.1:5000/quizzes')
+    fetch('https://pygame-5.onrender.com/quizzes')
         .then(response => response.json())
         .then(data => {
             displayQuizzes(data);
@@ -43,7 +43,7 @@ function displayQuizzes(quizzes) {
 }
 
 function fetchQuestions(quizId, container) {
-    fetch(`http://127.0.0.1:5000/quizzes/${quizId}/questions`)
+    fetch(`https://pygame-5.onrender.com/quizzes/${quizId}/questions`)
         .then(response => response.json())
         .then(data => {
             displayQuestions(data, container);
@@ -96,7 +96,7 @@ function getCurrentUser() {
         throw new Error('No access token found');
     }
 
-    fetch('http://127.0.0.1:5000/check_session', {
+    fetch('https://pygame-5.onrender.com/check_session', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -125,7 +125,7 @@ button.addEventListener('click', () => {
 });
 
 function logOut() {
-    fetch('http://127.0.0.1:5000/logout', {
+    fetch('https://pygame-5.onrender.com/logout', {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${localStorage.getItem('access_token')}`,
