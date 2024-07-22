@@ -62,6 +62,7 @@ function addUser(username, email, password) {
             console.log(json);
             alert('Sign up successful!');
             document.getElementById('signUpForm').reset(); // Reset the form fields
+            window.location.href = 'login.html'; // Redirect to login page
         })
         .catch(error => {
             console.error('Error:', error);
