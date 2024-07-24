@@ -33,9 +33,10 @@ function displayScores(scores) {
 
     scores.forEach(score => {
         const row = document.createElement('tr');
+        let newScore = ((score.score)/5)*100
         row.innerHTML = `
             <td>${score.quiz_name}</td>
-            <td>${score.score}</td>
+            <td>${newScore}%</td>
         `;
         tableBody.appendChild(row);
     });
