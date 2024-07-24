@@ -51,7 +51,7 @@ function addUser(username, email, password) {
         })
     };
 
-    fetch('http://127.0.0.1:5000/users', configurationObject)
+    fetch('https://pygame-6.onrender.com/users', configurationObject)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok.');
