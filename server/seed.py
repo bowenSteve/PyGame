@@ -64,7 +64,35 @@ def seed_data():
         db.session.commit()
 
         choices = [
-            # ... (existing choices)
+            Choice(text='var x = 5', is_correct=False, question_id=questions[0].id),
+            Choice(text='x = 5', is_correct=True, question_id=questions[0].id),
+            Choice(text='int x = 5', is_correct=False, question_id=questions[0].id),
+            Choice(text='x := 5', is_correct=False, question_id=questions[0].id),
+
+            Choice(text='1variable', is_correct=False, question_id=questions[1].id),
+            Choice(text='_variable', is_correct=True, question_id=questions[1].id),
+            Choice(text='variable-1', is_correct=False, question_id=questions[1].id),
+            Choice(text='var$', is_correct=False, question_id=questions[1].id),
+
+            Choice(text='while x > 5 { }', is_correct=False, question_id=questions[2].id),
+            Choice(text='while x > 5:', is_correct=True, question_id=questions[2].id),
+            Choice(text='while (x > 5)', is_correct=False, question_id=questions[2].id),
+            Choice(text='while x > 5 then', is_correct=False, question_id=questions[2].id),
+
+            Choice(text='for x to 5 { }', is_correct=False, question_id=questions[3].id),
+            Choice(text='for x in range(5):', is_correct=True, question_id=questions[3].id),
+            Choice(text='foreach x in range(5)', is_correct=False, question_id=questions[3].id),
+            Choice(text='for x > 5', is_correct=False, question_id=questions[3].id),
+
+            Choice(text='def functionName():', is_correct=True, question_id=questions[4].id),
+            Choice(text='function functionName():', is_correct=False, question_id=questions[4].id),
+            Choice(text='define functionName():', is_correct=False, question_id=questions[4].id),
+            Choice(text='functionName() define:', is_correct=False, question_id=questions[4].id),
+
+            Choice(text='functionName()', is_correct=True, question_id=questions[5].id),
+            Choice(text='call functionName()', is_correct=False, question_id=questions[5].id),
+            Choice(text='execute functionName()', is_correct=False, question_id=questions[5].id),
+            Choice(text='run functionName()', is_correct=False, question_id=questions[5].id),
 
             # New choices for quiz4
             Choice(text='Integer', is_correct=False, question_id=questions[6].id),
