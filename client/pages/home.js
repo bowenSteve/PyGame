@@ -135,7 +135,7 @@ function logOut() {
     .then(response => {
         if (response.ok) {
             localStorage.removeItem('access_token'); // Clear the token from localStorage
-            window.location.href = 'login.html'; // Redirect to login page
+            window.location.href = 'index.html'; // Redirect to login page
         } else {
             console.error('Failed to log out');
         }
