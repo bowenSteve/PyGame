@@ -97,7 +97,6 @@ def create_app():
             return jsonify({'message': 'Quiz not found'}), 404
 
         score = 0
-
         for answer in answers:
             question_id = answer.get('questionId')
             choice_id = answer.get('choiceId')
