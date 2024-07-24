@@ -105,7 +105,7 @@ function submitQuiz() {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}` // Replace with actual token retrieval
+        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
     },
     body: JSON.stringify({ quiz_id: quizId, score: score })
 })
