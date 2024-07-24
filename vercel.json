@@ -1,8 +1,18 @@
 {
+  "builds": [
+    {
+      "src": "client/pages/**/*.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "client/scripts/**/*.js",
+      "use": "@vercel/static"
+    }
+  ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/client/pages/$1"
+      "dest": "client/pages/$1"
     }
   ]
 }
