@@ -5,10 +5,12 @@
         "use": "@vercel/static"
       }
     ],
-    "routes": [
-      {
-        "src": "/signup",
-        "dest": "/client/pages/signup.html"
-      }
-    ]
-  }
+      "routes": [
+        {
+          "src": "/(.*)",
+          "dest": "/client/pages/$1"
+        }
+      ]
+    }
+    
+  
