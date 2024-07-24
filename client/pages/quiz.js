@@ -101,7 +101,7 @@ function submitQuiz() {
     document.getElementById('scoreCounter').textContent = score;
 
     // Send the score to the server
-    fetch('https://pygame-5.onrender.com/scores', {
+    fetch('https://pygame-6.onrender.com/scores', {
     method: 'POST',
     headers: {
         'Content-Type': 'application/json',
