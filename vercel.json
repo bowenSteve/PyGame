@@ -4,5 +4,11 @@
         "src": "index.html",
         "use": "@vercel/static"
       }
+    ],
+    "routes": [
+      {
+        "src": "signup.html",
+        "dest": "/client/pages/signup.html"
+      }
     ]
   }
