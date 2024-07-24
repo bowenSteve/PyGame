@@ -47,7 +47,7 @@ function Login(username, password) {
         })
     };
     
-    fetch('https://pygame-5.onrender.com/login', configurationObject)
+    fetch('https://pygame-6.onrender.com/login', configurationObject)
         .then(response => response.json())
         .then(json => {
             if (json.errors) {
