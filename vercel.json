@@ -1,16 +1,14 @@
 {
-    "builds": [
-      {
-        "src": "index.html",
-        "use": "@vercel/static"
-      }
-    ],
-      "routes": [
-        {
-          "src": "/(.*)",
-          "dest": "/client/pages/$1"
-        }
-      ]
+  "builds": [
+    {
+      "src": "client/pages/login.html",
+      "use": "@vercel/static"
     }
-    
-  
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/client/pages/$1"
+    }
+  ]
+}
