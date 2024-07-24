@@ -11,7 +11,7 @@ function fetchScores() {
     }
 
     // Make the fetch request with the token in the Authorization header
-    fetch(`https://pygame-5.onrender.com/user_scores`, {
+    fetch(`https://pygame-6.onrender.com/user_scores`, {
         headers: {
             'Authorization': `Bearer ${token}`
         }
