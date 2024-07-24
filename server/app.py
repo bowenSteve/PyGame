@@ -113,7 +113,6 @@ def create_app():
             if choice.is_correct:
                 score += 1
 
-        # Update the user's score in the database
         existing_score = Score.query.filter_by(user_id=user_id, quiz_id=quiz_id).first()
         if existing_score:
             existing_score.score = score
