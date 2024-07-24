@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/scripts/(.*)",
+      "dest": "/client/scripts/$1"
+    },
+    {
       "src": "/(.*)",
       "dest": "/client/pages/$1"
     }
