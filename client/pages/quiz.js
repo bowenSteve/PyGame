@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function fetchQuestions(quizId) {
-    fetch(`https://pygame-6.onrender.com/${quizId}/questions`)
+    fetch(`https://pygame-6.onrender.com/quizzes/${quizId}/questions`)
         .then(response => response.json())
         .then(data => {
             displayQuestions(data);
