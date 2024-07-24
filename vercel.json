@@ -7,7 +7,7 @@
     ],
     "routes": [
       {
-        "src": "signup.html",
+        "src": "/signup",
         "dest": "/client/pages/signup.html"
       }
     ]
